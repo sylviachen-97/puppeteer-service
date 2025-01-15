@@ -17,11 +17,13 @@ app.get('/resolve', async (req, res) => {
 
   let browser;
   try {
+    console.log('Using Chromium at:', puppeteer.executablePath()); // Log the browser path
     console.log('Launching Puppeteer...');
+    
     // Use Puppeteer's bundled Chromium
     browser = await puppeteer.launch({
       headless: true, // Use headless mode
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for Render
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for Puppeteer on Render
     });
     console.log('Puppeteer launched successfully.');
 
