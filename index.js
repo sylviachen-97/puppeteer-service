@@ -14,22 +14,21 @@ app.get('/resolve', async (req, res) => {
 
   let browser;
   try {
-    console.log('Using Puppeteer executable path:', puppeteer.executablePath()); // Debugging info
+    console.log('Using Puppeteer executable path:', puppeteer.executablePath()); // Log the path
     console.log('Launching Puppeteer...');
 
+    // Force Puppeteer to use its bundled Chromium
     browser = await puppeteer.launch({
-      headless: 'new', // Use the new headless mode
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for Puppeteer on Render
+      headless: 'new',
+      executablePath: puppeteer.executablePath(),
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     console.log('Puppeteer launched successfully.');
 
     const page = await browser.newPage();
     console.log(`Navigating to URL: ${url}`);
-    await page.goto(url, {
-      waitUntil: 'networkidle2',
-      timeout: 60000,
-    });
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
 
     const finalUrl = page.url();
     console.log('Final URL:', finalUrl);
