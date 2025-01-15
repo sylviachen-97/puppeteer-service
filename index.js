@@ -1,12 +1,9 @@
-// 1) REQUIRE EXPRESS & PUPPETEER
 const express = require('express');
 const puppeteer = require('puppeteer');
 
-// 2) CREATE THE EXPRESS APP
 const app = express();
-app.use(express.json()); // parse JSON if needed
+app.use(express.json());
 
-// 3) DEFINE YOUR ROUTE /resolve
 app.get('/resolve', async (req, res) => {
   const { url } = req.query;
   if (!url) {
@@ -17,35 +14,30 @@ app.get('/resolve', async (req, res) => {
 
   let browser;
   try {
-    console.log('Using Chromium at:', puppeteer.executablePath()); // Log the browser path
+    console.log('Using Puppeteer executable path:', puppeteer.executablePath()); // Debugging info
     console.log('Launching Puppeteer...');
-    
-    // Use Puppeteer's bundled Chromium
+
     browser = await puppeteer.launch({
-      headless: true, // Use headless mode
+      headless: 'new', // Use the new headless mode
       args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for Puppeteer on Render
     });
+
     console.log('Puppeteer launched successfully.');
 
-    // 3B) CREATE NEW PAGE & GOTO
     const page = await browser.newPage();
     console.log(`Navigating to URL: ${url}`);
     await page.goto(url, {
       waitUntil: 'networkidle2',
       timeout: 60000,
     });
-    console.log(`Navigation to ${url} completed.`);
 
-    // 3C) GET FINAL URL
     const finalUrl = page.url();
     console.log('Final URL:', finalUrl);
 
-    // 3D) RESPOND WITH FINAL URL
     res.json({ finalUrl });
-
   } catch (err) {
     console.error('Error during Puppeteer navigation:', err);
-    res.status(500).json({ error: 'An error occurred while processing your request.' });
+    res.status(500).json({ error: err.message });
   } finally {
     if (browser) {
       await browser.close();
@@ -54,7 +46,6 @@ app.get('/resolve', async (req, res) => {
   }
 });
 
-// 4) START THE EXPRESS SERVER
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Puppeteer service running on port ${PORT}`);
