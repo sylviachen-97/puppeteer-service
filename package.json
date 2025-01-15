@@ -1,25 +1,15 @@
 {
   "name": "my-puppeteer-service",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Puppeteer 18 on Render",
   "scripts": {
-    "build": "./render-build.sh",
+    // No "build" script is strictly needed.
+    // Render by default runs `npm install`, then `npm start`.
     "start": "node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sylviachen-97/puppeteer-service.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/sylviachen-97/puppeteer-service/issues"
-  },
-  "homepage": "https://github.com/sylviachen-97/puppeteer-service#readme",
-  "description": "",
   "dependencies": {
     "express": "^4.21.2",
-    "puppeteer": "^24.1.0"
+    // Pin Puppeteer to 18.2.1
+    "puppeteer": "18.2.1"
   }
 }
