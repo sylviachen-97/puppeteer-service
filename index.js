@@ -18,10 +18,10 @@ app.get('/resolve', async (req, res) => {
   let browser;
   try {
     console.log('Launching Puppeteer...');
+    // Use Puppeteer's bundled Chromium
     browser = await puppeteer.launch({
-      headless: 'new', // Use 'new' or 'true' if not supported
-      executablePath: '/usr/bin/google-chrome-stable', // Path to Chrome
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for headless Chrome
+      headless: true, // Use headless mode
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for Render
     });
     console.log('Puppeteer launched successfully.');
 
@@ -34,17 +34,11 @@ app.get('/resolve', async (req, res) => {
     });
     console.log(`Navigation to ${url} completed.`);
 
-    // 3C) HANDLE CONSENT PAGES (if any)
-    if (page.url().includes('consent.google.com')) {
-      console.log('Consent page detected. Searching for an "agree/accept" button...');
-      // Your consent handling logic here
-    }
-
-    // 3D) GET FINAL URL
+    // 3C) GET FINAL URL
     const finalUrl = page.url();
     console.log('Final URL:', finalUrl);
 
-    // 3E) RESPOND WITH FINAL URL
+    // 3D) RESPOND WITH FINAL URL
     res.json({ finalUrl });
 
   } catch (err) {
