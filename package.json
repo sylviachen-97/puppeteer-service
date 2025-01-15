@@ -1,0 +1,26 @@
+{
+  "name": "my-puppeteer-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./render-build.sh",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sylviachen-97/puppeteer-service.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sylviachen-97/puppeteer-service/issues"
+  },
+  "homepage": "https://github.com/sylviachen-97/puppeteer-service#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2",
+    "puppeteer": "^24.1.0"
+  }
+}
